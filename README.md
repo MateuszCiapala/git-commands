@@ -44,4 +44,34 @@
 ## git push
 ###### Desc: Pushing out commited changed from local repository to remote repository.
 ###### Usage Examples:
-- git push
+- git push // default push to remote repository. See notes for restrictions.
+- git push origin HEAD // push selected branch to remote repository. Example: You are in branch test and you're pushing new/updating branch test in remote repository.
+- git push origin HEAD:main // push your selected branch to specified branch. Example: You are in branch test and you're updating branch main in remote repository.
+###### *Note that git push require same branchName as configured upstream branchName. For example if you are using branchTest then u need to configure upstream as follows: git branch -u origin/branchTest
+## git pull
+###### Desc: Fetch data from remote repository.
+###### Usage Examples:
+- git pull //pull remote repository data and merge all commits.
+- git pull --rebase //pull remote repository data with commits history.
+- git pull origin HEAD:main --rebase //pull selected remote repository branch to your current local branch with full commits history. Example: You are in branch test and fetching data from remote branch main.
+###### *Note that default pull command merge fetched data. If you are willing to keep history of commits use --rebase parameter.
+## git clone
+###### Desc: Clone remote repository.
+###### Usage Example:
+- git clone https://github.com/userName/repoName.git // clone repoName remote repository to your working directory locally.
+## git reflog
+###### Desc: Shows ordered list of all local commits from past 90 days.
+## git reset
+###### Desc: Used to remove files from staging area or undo commits.
+###### Usage Example:
+- git reset HEAD //remove all files from staging area.
+- git reset HEAD path/to/file //remove selected file from staging area. Example: git reset Head test.txt will remove test.txt from staging area back to working directory.
+- git reset --soft HEAD~1 //undo commit only and moves commited files to staging area once again.
+- git reset HEAD~1 // undo last commit and pointing to previous HEAD ( changes are kept, commit deleted and commited files are moved back to working directory untracked area).
+- git reset --hard HEAD~1 //undo last commit, delete commited data and pointing to previous HEAD ( both, commit and changes are deleted in this case ).
+###### *Note that after deleting files with --hard parameter they're removed permamently. If you done this accidentally use git reflog to check your commits and restore it.
+## git cherry-pick
+###### Desc: Copy just a specified commit(s) to selected branch.
+###### Usage Example:
+- git cherry-pick commitHash // Copy commit with specified hash to selected branch. Example: You're in branch thisBranch and you're picking commit with specified hash from branch anotherBranch, only this commit will be copied to thisBranch.
+- git cherry-pick commitId1 commitId2 //Same as above, with difference of copying 2 commits instead of 1 and by id not by hash.
