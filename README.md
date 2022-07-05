@@ -1,11 +1,16 @@
-# Author: [Mateusz Ciapała](https://github.com/MateuszCiapala)
-
 # Git Commands Guide
 
 ## git init
 ###### Desc: Creating a git repository
 ## git status
 ###### Desc: Provide informations about current branch, file status ( tracked / untracked / modified )
+## git config
+###### Desc: configuration for git.
+###### Usage Examples:
+- git config user.email "you@example.com" // set your git email for current repo
+- git config user.name "Your Name" // set your git username for current repo
+- git config --global user.email "you@example.com" // set your git email globally
+- git config --global user.name "Your Name" // set your git username globally
 ## git add
 ###### Desc: Moves specified "untracked" / "modified" file(s) in working directory to git staging area.
 ###### Usage Examples:
@@ -16,6 +21,7 @@
 ###### Usage Examples:
 - git commit -m"Comment here" // commits all files from staging area with specified comment.
 - git commit -am"Comment here" // adding all modified files to staging area then commits all files from staging area with specified comment.
+- git commit --author="username <email>" // commits changes with specified author described.
 ###### *Note that git commit -am moves only modified file to staging area, untracked files must be moved manually with git add.
 ## git log
 ###### Desc: Lists commits on current branch.
@@ -37,10 +43,14 @@
 - git checkout branchName // navigates (select) to specified branch by name.
 - git checkout commitHash // navigates (select) to specified commit from history.
 ###### *Note that during new branch creation, branch template will be taken from currently selected branch (including upstream)
-## git remote add
-###### Desc: Set up git remote address for your remote repository.
+## git remote
+###### Desc: Manage git address of your remote repository.
 ###### Usage Example:
+- git remote show origin // shows detailed info about your currently remote origin status
+- git remote prune origin --dry-run // shows which references of local machine branches are no longer exist in remote.
+- git remote prune origin // clears references of local machine branches that are no longer exist in remote.
 - git remote add origin https://github.com/userName/repoName.git // set origin to specified repository address on github.
+- git remote remove origin // removes currently used origin address.
 ## git push
 ###### Desc: Pushing out commited changed from local repository to remote repository.
 ###### Usage Examples:
@@ -53,8 +63,8 @@
 ###### Usage Examples:
 - git pull //pull remote repository data and merge all commits.
 - git pull --rebase //pull remote repository data with commits history.
-- git pull origin HEAD:main --rebase //pull selected remote repository branch to your current local branch with full commits history. Example: You are in branch test and fetching data from remote branch main.
-###### *Note that default pull command merge fetched data. If you are willing to keep history of commits use --rebase parameter.
+- git pull origin HEAD:main --rebase //pull selected remote repository branch to your current local branch with full commits history. Example: You are in branch test and pull data from remote branch main.
+###### *Note that default pull command merge pulled data. If you are willing to keep history of commits use --rebase parameter.
 ## git clone
 ###### Desc: Clone remote repository.
 ###### Usage Example:
@@ -75,3 +85,15 @@
 ###### Usage Example:
 - git cherry-pick commitHash // Copy commit with specified hash to selected branch. Example: You're in branch thisBranch and you're picking commit with specified hash from branch anotherBranch, only this commit will be copied to thisBranch.
 - git cherry-pick commitId1 commitId2 //Same as above, with difference of copying 2 commits instead of 1 and by id not by hash.
+## git rebase -i
+###### Desc: interactive rebase.
+###### Usage Example:
+- git rebase -i commitHash // rebasing specific commit
+- git rebase -i HEAD~1 // rebasing 1 commit ahead.
+- git rebase --abort // exit interactive rebase without saving changes.
+###### *Selected commit can be edited as description shows. For example if u want to modify author, do as following:
+1. git rebase -i HEAD~1 // open interactive rebase for last commit
+1. press INSERT and change "pick" to "edit" before commit you want to edit ( in our case there is only 1 commit )
+1. press :wq to save
+1. type git commit --amend --author="Author <author@mail.com>" // changes author for all files from specified commit.
+1. type git rebase --continue // finish interactive rebasing.
